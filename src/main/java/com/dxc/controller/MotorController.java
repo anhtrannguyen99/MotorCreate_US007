@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,10 +23,15 @@ public class MotorController {
 	List<String> list = new ArrayList<String>();
 	
 
-	@RequestMapping(value = "/get", method = RequestMethod.GET)
+	@RequestMapping(value = "/contracts", method = RequestMethod.GET)
 	@ResponseBody
 	public List<MotorModel> getAll() {
 		return motorDao.findAllMotor();
+	}
+	
+	@RequestMapping(method = RequestMethod.POST , value = "/contracts")
+	public void addContract(@RequestBody MotorModel motor) {
+		motorDao.addContract(motor);
 	}
 
 }

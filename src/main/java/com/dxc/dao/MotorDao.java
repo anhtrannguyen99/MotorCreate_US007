@@ -6,4 +6,5 @@ import com.dxc.model.MotorModel;
 
 public interface MotorDao {
 	List<MotorModel> findAllMotor();
+	void addContract(MotorModel motor);
 }
