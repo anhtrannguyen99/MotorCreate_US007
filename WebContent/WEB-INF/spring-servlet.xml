@@ -44,8 +44,11 @@
 	</bean>
 
 	<bean id="motorDao" class="com.dxc.dao.MotorDaoImpl" />
-	<bean id="pd" class="com.dxc.dao.PolicyDaoImpl" />
-	<bean id="ps" class="com.dxc.service.PolicyServiceImpl" />
+	<bean id="policyDao" class="com.dxc.dao.PolicyDaoImpl" />
+	<bean id="policyService" class="com.dxc.service.PolicyServiceImpl" />
+	<bean id="motorService" class="com.dxc.service.MotorServiceImpl" />
+	<bean id="policyMapper" class="com.dxc.service.mapper.PolicyMapper" />
+	
 
 
 </beans>

@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Motor")
+@Table(name = "Policy")
 public class Policy {
 	
 	@Id
@@ -14,7 +14,7 @@ public class Policy {
 	private String policyNo;
 	
 	@Column(name = "cover_note")
-	private String coverNote;
+	private MotorModel coverNote;
 	
 	@Column(name = "annual_prenium")
 	private double annualPremium;
@@ -37,7 +37,7 @@ public class Policy {
 		
 	}
 
-	public Policy(String policyNo, String coverNote, double annualPremium, double postedPremium, String status,
+	public Policy(String policyNo, MotorModel coverNote, double annualPremium, double postedPremium, String status,
 			String error, String policyOwner) {
 		super();
 		this.policyNo = policyNo;
@@ -57,11 +57,11 @@ public class Policy {
 		this.policyNo = policyNo;
 	}
 
-	public String getCoverNote() {
+	public MotorModel getCoverNote() {
 		return coverNote;
 	}
 
-	public void setCoverNote(String coverNote) {
+	public void setCoverNote(MotorModel coverNote) {
 		this.coverNote = coverNote;
 	}
 

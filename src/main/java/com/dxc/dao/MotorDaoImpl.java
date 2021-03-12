@@ -43,8 +43,12 @@ public class MotorDaoImpl implements MotorDao {
 	}
 
 	@Override
-	public List<String> getCombineEngineAndChassisNumber() {
-		String sql = "select concat(engine_no,chassis_no) from dbo.Motor";
-		return jdbcTemplate.queryForList(sql,String.class);
+	public int getCombineEngineAndChassisNumber(MotorModel motor) {
+//		String sql = "select concat(engine_no,chassis_no) from dbo.Motor";
+//		return jdbcTemplate.queryForList(sql,String.class);
+		
+		String sql = String.format("select count(*) from dbo.Motor where engine_no = '%s' AND chassis_no = '%s'",
+				motor.getEngineNo(), motor.getChassisNo());
+		return jdbcTemplate.queryForObject(sql, Integer.class);
 	}
 }

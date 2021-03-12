@@ -13,7 +13,7 @@ public class PolicyDaoImpl implements PolicyDao{
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public void addPolicy(Policy p) {
+	public Policy addPolicy(Policy p) {
 		String sql = "insert into dbo.Policy(policy_no,cover_note,annual_prenium,posted_prenium,"
 				+"status,error,policy_owner) "
 				+ "values (?,?,?,?,?,?,?)";
@@ -21,10 +21,11 @@ public class PolicyDaoImpl implements PolicyDao{
 				p.getPolicyNo(),
 				p.getCoverNote(),
 				p.getAnnualPremium(),
-				p.getPostedPremium(),
 				p.getStatus(),
 				p.getError(),
 				p.getPolicyOwner());
+		
+		return p;
 		
 	}
 }

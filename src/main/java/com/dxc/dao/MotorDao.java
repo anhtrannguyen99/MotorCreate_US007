@@ -7,5 +7,5 @@ import com.dxc.model.MotorModel;
 public interface MotorDao {
 	List<MotorModel> findAllMotor();
 	void addContract(MotorModel motor);
-	List<String> getCombineEngineAndChassisNumber();
+	int getCombineEngineAndChassisNumber(MotorModel motor);
 }
