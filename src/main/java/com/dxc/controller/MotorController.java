@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dxc.model.MotorModel;
+import com.dxc.controller.dto.MotorRequest;
+import com.dxc.controller.dto.PolicyReponse;
 import com.dxc.model.Policy;
 import com.dxc.service.MotorService;
 import com.dxc.service.PolicyService;
@@ -37,20 +38,23 @@ public class MotorController {
 		this.policyService = policyService;
 	}
 
+
 //	@RequestMapping(value = "/contracts", method = RequestMethod.GET)
 //	@ResponseBody
-//	public List<MotorModel> getAll() {
-//		return motorDao.findAllMotor();
+//	public Client getAll() {
+//		return clientDao.findClientId("123457689").get(0);
 //	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/contracts")
 	@ResponseBody
-	public Policy addContract(@RequestBody MotorModel motor) {
-		if (!String.valueOf(motorService.checkInput(motor)).equals("")) {
-			return policyMapper.toReponse(motor);
+	public PolicyReponse addContract(@RequestBody MotorRequest motorRequest) {
+		String error = String.valueOf(motorService.checkInput(motorRequest));
+		if (!"".equals(error)) {
+			return policyMapper.toResponse(policyMapper.toPolicy(motorRequest), error);
 		} else {
-			motorService.add(motor);
-			return policyService.addPolicy(policyMapper.toReponse(motor));
+			Policy policy = policyMapper.toPolicy(motorRequest);
+			motorService.add(motorRequest);
+			return policyService.addPolicy(policy, error);
 		}
 
 //		Policy p = ps.addPolicy(motor);

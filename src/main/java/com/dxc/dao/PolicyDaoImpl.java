@@ -7,25 +7,23 @@ import org.springframework.stereotype.Repository;
 import com.dxc.model.Policy;
 
 @Repository
-public class PolicyDaoImpl implements PolicyDao{
-	
-	@Autowired
+public class PolicyDaoImpl implements PolicyDao {
+
 	private JdbcTemplate jdbcTemplate;
 
+	@Autowired
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
 	@Override
-	public Policy addPolicy(Policy p) {
+	public Policy add(Policy p) {
 		String sql = "insert into dbo.Policy(policy_no,cover_note,annual_prenium,posted_prenium,"
-				+"status,error,policy_owner) "
-				+ "values (?,?,?,?,?,?,?)";
-		jdbcTemplate.update(sql,
-				p.getPolicyNo(),
-				p.getCoverNote(),
-				p.getAnnualPremium(),
-				p.getStatus(),
-				p.getError(),
-				p.getPolicyOwner());
-		
+				+ "status,policy_owner) " + "values (?,?,?,?,?,?)";
+		jdbcTemplate.update(sql, p.getPolicyNo(), p.getCoverNote().getCoverNote(), p.getAnnualPremium(),
+				p.getPostedPremium(), p.getStatus(), p.getPolicyOwner());
+
 		return p;
-		
+
 	}
 }

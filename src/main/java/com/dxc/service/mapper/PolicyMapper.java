@@ -3,7 +3,10 @@ package com.dxc.service.mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.dxc.model.MotorModel;
+import com.dxc.controller.dto.MotorRequest;
+import com.dxc.controller.dto.PolicyReponse;
+import com.dxc.dao.ClientDao;
+import com.dxc.model.Motor;
 import com.dxc.model.Policy;
 import com.dxc.service.MotorService;
 import com.dxc.service.PolicyService;
@@ -25,29 +28,61 @@ public class PolicyMapper {
 		this.policyService = policyService;
 	}
 
-	public Policy toReponse(MotorModel motor) {
-		double days = motorService.daysBetween(motor.getInceptionDate(), motor.getExpiryDate());
-		double annualPremium = (motor.getSumInsured() * motor.getRate()) / 100;
+	private MotorMapper motorMapper;
+
+	@Autowired
+	public void setMotorMapper(MotorMapper motorMapper) {
+		this.motorMapper = motorMapper;
+	}
+
+	ClientDao clientDao;
+
+	@Autowired
+	public void setClientDao(ClientDao clientDao) {
+		this.clientDao = clientDao;
+	}
+
+	public Policy toPolicy(MotorRequest motorRequest) {
+		double days = motorService.daysBetween(motorRequest.getInceptionDate(), motorRequest.getExpiryDate());
+		double annualPremium = (motorRequest.getSumInsured() * motorRequest.getRate()) / 100;
 		double postedPremium = annualPremium * (days / 365);
 
 		Policy p = new Policy();
 
+		Motor motor = motorMapper.toEntity(motorRequest);
+
 		p.setPolicyNo(policyService.createRandomPolicyNumber());
-		p.setCoverNote(motor);
+
 		p.setAnnualPremium(annualPremium);
 		p.setPostedPremium(postedPremium);// chua tinh , can tinh so ngay giua Inceptiondate va Expirydate
-		p.setPolicyOwner(motor.getClientSecurityNumber());
+		p.setCoverNote(motor);
 
-		StringBuilder error = motorService.checkInput(motor);
+		if (clientDao.findClientId(motorRequest.getClientSecurityNumber()).size() > 0)
+			p.setPolicyOwner(String.format("%s %s", motor.getClientSecurityNumber().getFirstName(),
+					motor.getClientSecurityNumber().getLastName()));
+
+		StringBuilder error = motorService.checkInput(motorRequest);
 		if (!"".equals(String.valueOf(error))) {
 			p.setStatus("P");
 		} else {
 			p.setStatus("S");
 		}
-		
-		p.setError(String.valueOf(error));
 
 		return p;
 	}
 
+	public PolicyReponse toResponse(Policy policy, String error) {
+
+		PolicyReponse policyReponse = new PolicyReponse();
+
+		policyReponse.setCoverNote(policy.getCoverNote().getCoverNote());
+		policyReponse.setAnnualPremium(policy.getAnnualPremium());
+		policyReponse.setPolicyNo(policy.getPolicyNo());
+		policyReponse.setPostedPremium(policy.getPostedPremium());
+		policyReponse.setPolicyOwner(policy.getPolicyOwner());
+		policyReponse.setStatus(policy.getStatus());
+		policyReponse.setError(error);
+		return policyReponse;
+
+	}
 }

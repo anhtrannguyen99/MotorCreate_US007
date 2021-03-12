@@ -1,47 +1,35 @@
-package com.dxc.model;
+package com.dxc.controller.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "Policy")
-public class Policy {
-	
-	@Id
-	@Column(name = "policy_no")
+public class PolicyRequest {
 	private String policyNo;
-	
-	@Column(name = "cover_note")
-	private Motor coverNote;
-	
-	@Column(name = "annual_prenium")
+
+	private String coverNote;
+
 	private double annualPremium;
-	
-	@Column(name = "posted_prenium")
+
 	private double postedPremium;
-	
-	@Column(name = "status")
+
 	private String status;
-	
-	@Column(name = "policy_owner")
+
+	private String error;
+
 	private String policyOwner;
 	
 	
-
-	public Policy() {
-		
+	public PolicyRequest() {
+		super();
 	}
 
-	public Policy(String policyNo, Motor coverNote, double annualPremium, double postedPremium, String status,
-			String error, String policyOwner) {
+	public PolicyRequest(String policyNo, String coverNote, double annualPremium, double postedPremium,
+			String status, String error, String policyOwner) {
 		super();
 		this.policyNo = policyNo;
 		this.coverNote = coverNote;
 		this.annualPremium = annualPremium;
 		this.postedPremium = postedPremium;
 		this.status = status;
+		this.error = error;
 		this.policyOwner = policyOwner;
 	}
 
@@ -53,11 +41,11 @@ public class Policy {
 		this.policyNo = policyNo;
 	}
 
-	public Motor getCoverNote() {
+	public String getCoverNote() {
 		return coverNote;
 	}
 
-	public void setCoverNote(Motor coverNote) {
+	public void setCoverNote(String coverNote) {
 		this.coverNote = coverNote;
 	}
 
@@ -85,6 +73,14 @@ public class Policy {
 		this.status = status;
 	}
 
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
 	public String getPolicyOwner() {
 		return policyOwner;
 	}
@@ -93,25 +89,5 @@ public class Policy {
 		this.policyOwner = policyOwner;
 	}
 	
-	
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

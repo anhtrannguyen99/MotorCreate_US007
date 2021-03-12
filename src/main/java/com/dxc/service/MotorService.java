@@ -4,14 +4,14 @@ import java.util.Date;
 
 import org.springframework.stereotype.Service;
 
-import com.dxc.model.MotorModel;
+import com.dxc.controller.dto.MotorRequest;
 
 @Service
 public interface MotorService {
 
-	StringBuilder checkInput(MotorModel motor);
+	StringBuilder checkInput(MotorRequest motorRequest);
 
-	boolean add(MotorModel motor);
+	boolean add(MotorRequest motorRequest);
 
 	double daysBetween(Date d1, Date d2);
 }

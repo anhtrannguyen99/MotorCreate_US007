@@ -1,7 +1,5 @@
 package com.dxc.model;
 
-
-
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,45 +9,44 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Motor")
-public class MotorModel {
-	
+public class Motor {
+
 	@Id
 	@Column(name = "cover_note")
-	private String coverNote; 
-	
-	@Column(name="inception_date")
+	private String coverNote;
+
+	@Column(name = "inception_date")
 	private Date inceptionDate;
-	
+
 	@Column(name = "expiry_date")
 	private Date expiryDate;
-	
-	@Column(name="client_security_number")
-	private String clientSecurityNumber;
-	
-	@Column(name="engine_no")
+
+	@Column(name = "client_security_number")
+	private Client clientSecurityNumber;
+
+	@Column(name = "engine_no")
 	private String engineNo;
-	
-	@Column(name="chassis_no")
+
+	@Column(name = "chassis_no")
 	private String chassisNo;
-	
-	@Column(name="vehicle_registration_no")
+
+	@Column(name = "vehicle_registration_no")
 	private String vehicleRegistrationNo;
-	
-	@Column(name="billing_currency")
+
+	@Column(name = "billing_currency")
 	private String billingCurrency;
-	
-	@Column(name="sum_insured")
+
+	@Column(name = "sum_insured")
 	private double sumInsured;
-	
-	@Column (name="rate")
+
+	@Column(name = "rate")
 	private double rate;
-	
-	
-	public MotorModel() {
+
+	public Motor() {
 		super();
 	}
 
-	public MotorModel(String coverNote, Date inception, Date expiry, String clientSecurityNumber, String engineNo,
+	public Motor(String coverNote, Date inception, Date expiry, Client clientSecurityNumber, String engineNo,
 			String chassisNo, String vehicleRegistration, String billingCurrency, double sumInsured, double rate) {
 		super();
 		this.coverNote = coverNote;
@@ -88,11 +85,11 @@ public class MotorModel {
 		this.expiryDate = expiryDate;
 	}
 
-	public String getClientSecurityNumber() {
+	public Client getClientSecurityNumber() {
 		return clientSecurityNumber;
 	}
 
-	public void setClientSecurityNumber(String clientSecurityNumber) {
+	public void setClientSecurityNumber(Client clientSecurityNumber) {
 		this.clientSecurityNumber = clientSecurityNumber;
 	}
 
@@ -143,9 +140,5 @@ public class MotorModel {
 	public void setRate(double rate) {
 		this.rate = rate;
 	}
-
-		
-	
-	
 
 }
