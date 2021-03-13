@@ -42,16 +42,20 @@ public class MotorServiceImpl implements MotorService {
 
 		StringBuilder errorString = new StringBuilder("");
 
-		if(motorDao.findCoverNote(motorRequest.getCoverNote()).size() > 0) {
-			errorString.append("Cover note number is existed");
+		if (!"".equals(motorRequest.getCoverNote()) || motorRequest.getCoverNote() != null) {
+			if (motorDao.findCoverNote(motorRequest.getCoverNote()) > 0) {
+				errorString.append(", Cover note number is existed");
+			}
+		} else {
+			errorString.append(", Cover note  is required");
 		}
-		
+
 		// ngay null
-		if (motorRequest.getInceptionDate() == null) {
+		if (motorRequest.getInceptionDate() == null || "".equals(motorRequest.getInceptionDate())) {
 			errorString.append("Inception date is required");
 		}
 
-		if (motorRequest.getExpiryDate() == null) {
+		if (motorRequest.getExpiryDate() == null || "".equals(motorRequest.getExpiryDate())) {
 			errorString.append(", Expiry date is required");
 
 			// ngay bat dau == ngay ket thuc
@@ -66,10 +70,10 @@ public class MotorServiceImpl implements MotorService {
 		// bắt buộc
 		if ("".equals(motorRequest.getClientSecurityNumber()) || motorRequest.getClientSecurityNumber() == null) {
 			errorString.append(", Client security number is required");
-		}
-
-		if (clientDao.findClientId(motorRequest.getClientSecurityNumber()).size() == 0) {
-			errorString.append(", Client Security Number is not exist");
+		} else if (clientDao.findClientId(motorRequest.getClientSecurityNumber()).size() == 0) {
+			{
+				errorString.append(", Client Security Number is not exist");
+			}
 		}
 
 		if ("".equals(motorRequest.getEngineNo()) || motorRequest.getEngineNo() == null) {
@@ -84,12 +88,11 @@ public class MotorServiceImpl implements MotorService {
 		if (motorDao.getCombineEngineAndChassisNumber(motorMapper.toEntity(motorRequest)) > 0)
 			errorString.append(", This Combination of Engine number and Chassis number is already existed");
 
-
-		if ("".equals(motorRequest.getVehicleRegistrationNo())) {
+		if ("".equals(motorRequest.getVehicleRegistrationNo()) || motorRequest.getVehicleRegistrationNo() == null) {
 			errorString.append(", Vehicle registation number is required");
 		}
 
-		if ("".equals(motorRequest.getBillingCurrency())) {
+		if ("".equals(motorRequest.getBillingCurrency()) || motorRequest.getBillingCurrency() == null) {
 			errorString.append(", Billing currency is required");
 		}
 

@@ -54,7 +54,7 @@ public class PolicyMapper {
 		p.setPolicyNo(policyService.createRandomPolicyNumber());
 
 		p.setAnnualPremium(annualPremium);
-		p.setPostedPremium(postedPremium);// chua tinh , can tinh so ngay giua Inceptiondate va Expirydate
+		p.setPostedPremium(postedPremium);
 		p.setCoverNote(motor);
 
 		if (clientDao.findClientId(motorRequest.getClientSecurityNumber()).size() > 0)

@@ -8,5 +8,5 @@ public interface MotorDao {
 	List<Motor> findAllMotor();
 	void addContract(Motor motor);
 	int getCombineEngineAndChassisNumber(Motor motor);
-	List<Motor> findCoverNote (String coverNote);
+	int findCoverNote (String coverNote);
 }

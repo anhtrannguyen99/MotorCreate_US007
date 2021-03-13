@@ -39,10 +39,10 @@ public class MotorDaoImpl implements MotorDao {
 	}
 
 	@Override
-	public List<Motor> findCoverNote(String coverNote) {
-		String sql = String.format("select * from dbo.Motor where cover_note = '%s'", coverNote);
+	public int findCoverNote(String coverNote) {
+		String sql = String.format("select count(*) from dbo.Motor where cover_note = '%s'", coverNote);
 
-		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<Motor>(Motor.class));
+		return jdbcTemplate.queryForObject(sql, Integer.class);
 	}
 
 	@Override
