@@ -50,6 +50,7 @@
 	<bean id="motorService" class="com.dxc.service.MotorServiceImpl" />
 	<bean id="policyMapper" class="com.dxc.service.mapper.PolicyMapper" />
 	<bean id="motorMapper" class="com.dxc.service.mapper.MotorMapper" />
+	<bean id="motorResponse" class="com.dxc.controller.dto.MotorReponse" />
 	
 
 

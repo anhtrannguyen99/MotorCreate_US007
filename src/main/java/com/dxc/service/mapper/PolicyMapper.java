@@ -35,7 +35,7 @@ public class PolicyMapper {
 		this.motorMapper = motorMapper;
 	}
 
-	ClientDao clientDao;
+	private ClientDao clientDao;
 
 	@Autowired
 	public void setClientDao(ClientDao clientDao) {
@@ -63,7 +63,7 @@ public class PolicyMapper {
 
 		StringBuilder error = motorService.checkInput(motorRequest);
 		if (!"".equals(String.valueOf(error))) {
-			p.setStatus("P");
+			p.setStatus("F");
 		} else {
 			p.setStatus("S");
 		}

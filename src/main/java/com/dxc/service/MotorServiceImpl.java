@@ -42,20 +42,20 @@ public class MotorServiceImpl implements MotorService {
 
 		StringBuilder errorString = new StringBuilder("");
 
-		if (!"".equals(motorRequest.getCoverNote()) || motorRequest.getCoverNote() != null) {
+		if (!"".equals(motorRequest.getCoverNote())) {
 			if (motorDao.findCoverNote(motorRequest.getCoverNote()) > 0) {
-				errorString.append(", Cover note number is existed");
+				errorString.append(", Cover note number is already existed");
 			}
-		} else {
+		} else if ("".equals(motorRequest.getCoverNote()) || motorRequest.getCoverNote() == null) {
 			errorString.append(", Cover note  is required");
 		}
 
 		// ngay null
-		if (motorRequest.getInceptionDate() == null || "".equals(motorRequest.getInceptionDate())) {
-			errorString.append("Inception date is required");
+		if (motorRequest.getInceptionDate() == null) {
+			errorString.append(", Inception date is required");
 		}
 
-		if (motorRequest.getExpiryDate() == null || "".equals(motorRequest.getExpiryDate())) {
+		if (motorRequest.getExpiryDate() == null) {
 			errorString.append(", Expiry date is required");
 
 			// ngay bat dau == ngay ket thuc

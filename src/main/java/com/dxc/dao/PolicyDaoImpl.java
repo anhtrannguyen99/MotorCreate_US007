@@ -18,7 +18,7 @@ public class PolicyDaoImpl implements PolicyDao {
 
 	@Override
 	public Policy add(Policy p) {
-		String sql = "insert into dbo.Policy(policy_no,cover_note,annual_prenium,posted_prenium,"
+		String sql = "insert into dbo.ContractDetail(policy_no,cover_note,annual_prenium,posted_prenium,"
 				+ "status,policy_owner) " + "values (?,?,?,?,?,?)";
 		jdbcTemplate.update(sql, p.getPolicyNo(), p.getCoverNote().getCoverNote(), p.getAnnualPremium(),
 				p.getPostedPremium(), p.getStatus(), p.getPolicyOwner());
