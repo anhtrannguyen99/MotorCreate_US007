@@ -21,7 +21,7 @@ import com.dxc.service.PolicyService;
 import com.dxc.service.mapper.PolicyMapper;
 
 @RestController
-@RequestMapping("/api/contracts")
+@RequestMapping("/contracts")
 public class MotorController {
 	private static final Logger LOGGER = LogManager.getLogger(MotorController.class);
 
