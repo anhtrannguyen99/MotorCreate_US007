@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.dxc.controller.dto.MotorRequest;
-import com.dxc.controller.dto.PolicyReponse;
+import com.dxc.controller.dto.PolicyResponse;
 import com.dxc.dao.ClientDao;
 import com.dxc.model.Motor;
 import com.dxc.model.Policy;
@@ -71,9 +71,9 @@ public class PolicyMapper {
 		return p;
 	}
 
-	public PolicyReponse toResponse(Policy policy, String error) {
+	public PolicyResponse toResponse(Policy policy, String error) {
 
-		PolicyReponse policyReponse = new PolicyReponse();
+		PolicyResponse policyReponse = new PolicyResponse();
 
 		policyReponse.setCoverNote(policy.getCoverNote().getCoverNote());
 		policyReponse.setAnnualPremium(policy.getAnnualPremium());

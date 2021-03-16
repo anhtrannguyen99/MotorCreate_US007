@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.dxc.controller.dto.MotorRequest;
 import com.dxc.dao.ClientDao;
+import com.dxc.dao.CurrencyDao;
+import com.dxc.dao.ErrorMessageDao;
 import com.dxc.dao.MotorDao;
 import com.dxc.service.mapper.MotorMapper;
 
@@ -36,77 +38,93 @@ public class MotorServiceImpl implements MotorService {
 		this.motorMapper = motorMapper;
 	}
 
-	// method
+	private ErrorMessageDao errorMessage;
+
+	@Autowired
+	public void setErrorMessage(ErrorMessageDao errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+
+	private CurrencyDao currencyDao;
+
+	@Autowired
+	public void setCurrenctDao(CurrencyDao currencyDao) {
+		this.currencyDao = currencyDao;
+	}
+
 	@Override
 	public StringBuilder checkInput(MotorRequest motorRequest) {
-
 		StringBuilder errorString = new StringBuilder("");
 
+		// cover
 		if (!"".equals(motorRequest.getCoverNote())) {
 			if (motorDao.findCoverNote(motorRequest.getCoverNote()) > 0) {
-				errorString.append(", Cover note number is already existed");
+				errorString.append(", ").append(errorMessage.getError("cover existed"));
+
 			}
 		} else if ("".equals(motorRequest.getCoverNote()) || motorRequest.getCoverNote() == null) {
-			errorString.append(", Cover note  is required");
+			errorString.append(", ").append(errorMessage.getError("cover null"));
 		}
 
-		// ngay null
+		// date
 		if (motorRequest.getInceptionDate() == null) {
-			errorString.append(", Inception date is required");
+			errorString.append(", ").append(errorMessage.getError("inception null"));
 		}
 
 		if (motorRequest.getExpiryDate() == null) {
-			errorString.append(", Expiry date is required");
+			errorString.append(", ").append(errorMessage.getError("expiry null"));
 
-			// ngay bat dau == ngay ket thuc
-		} else if (daysBetween(motorRequest.getInceptionDate(), motorRequest.getExpiryDate()) != 0) { // dư thừa, xets
-																										// affter rồi
-																										// ==0
+		} else if (daysBetween(motorRequest.getInceptionDate(), motorRequest.getExpiryDate()) != 0) {
 			if (motorRequest.getInceptionDate().after(motorRequest.getExpiryDate())) {
-				errorString.append(", Expiry date must > Inception date");
+				errorString.append(", ").append(errorMessage.getError("inception > expiry"));
 			}
 		}
-
-		// bắt buộc
+		// client id
 		if ("".equals(motorRequest.getClientSecurityNumber()) || motorRequest.getClientSecurityNumber() == null) {
-			errorString.append(", Client security number is required");
+			errorString.append(", ").append(errorMessage.getError("client null"));
 		} else if (clientDao.findClientId(motorRequest.getClientSecurityNumber()).size() == 0) {
-			{
-				errorString.append(", Client Security Number is not exist");
-			}
+			errorString.append(", ").append(errorMessage.getError("client not existed"));
 		}
 
+		// engineNo
 		if ("".equals(motorRequest.getEngineNo()) || motorRequest.getEngineNo() == null) {
-			errorString.append(", Engine number is required");
+			errorString.append(", ").append(errorMessage.getError("engine null"));
 		}
 
+		// chassisNo
 		if ("".equals(motorRequest.getChassisNo()) || motorRequest.getChassisNo() == null) {
-			errorString.append(", Chassis number is required");
+			errorString.append(", ").append(errorMessage.getError("chassis null"));
 		}
 
-		// kết hợp getChassisNo & getEngineNo
 		if (motorDao.getCombineEngineAndChassisNumber(motorMapper.toEntity(motorRequest)) > 0)
-			errorString.append(", This Combination of Engine number and Chassis number is already existed");
+			errorString.append(", ").append(errorMessage.getError("enigine and chassis existed"));
 
+		// vehicleNo
 		if ("".equals(motorRequest.getVehicleRegistrationNo()) || motorRequest.getVehicleRegistrationNo() == null) {
-			errorString.append(", Vehicle registation number is required");
+			errorString.append(", ").append(errorMessage.getError("vehicle null"));
 		}
 
+		// billing currency
 		if ("".equals(motorRequest.getBillingCurrency()) || motorRequest.getBillingCurrency() == null) {
-			errorString.append(", Billing currency is required");
+			errorString.append(", ").append(errorMessage.getError("billing null"));
+		} else if (currencyDao.getCurrency(motorRequest.getBillingCurrency()).size() == 0) {
+			errorString.append(", ").append(errorMessage.getError("billing not existed"));
 		}
 
+		// sum
 		if (motorRequest.getSumInsured() == 0.0) {
-			errorString.append(", Sum insured is required");
+			errorString.append(", ").append(errorMessage.getError("sum insured null"));
 
 		} else if (motorRequest.getSumInsured() < 0) {
-			errorString.append(", Sum insured can't be nagative");
+			errorString.append(", ").append(errorMessage.getError("sum insured nagative"));
 		}
 
+		//rate
 		if (motorRequest.getRate() == 0.0) {
-			errorString.append(", Rate is required");
+			errorString.append(", ").append(errorMessage.getError("rate null"));
 		} else if (motorRequest.getRate() < 0) {
-			errorString.append(", Rate can't be nagative");
+			errorString.append(", ").append(errorMessage.getError("rate nagative"));
+
 		}
 
 		return errorString;
@@ -115,7 +133,7 @@ public class MotorServiceImpl implements MotorService {
 	@Override
 	public boolean add(MotorRequest motorRequest) {
 
-		if (checkInput(motorRequest).equals("") || checkInput(motorRequest) == null) {
+		if ("".equals(checkInput(motorRequest)) || checkInput(motorRequest) == null) {
 			return false;
 		} else {
 			motorDao.addContract(motorMapper.toEntity(motorRequest));
@@ -124,7 +142,6 @@ public class MotorServiceImpl implements MotorService {
 
 	}
 
-	// ngay
 	private LocalDate convertToLocalDate(Date dateToConvert) {
 		return Instant.ofEpochMilli(dateToConvert.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
 	}

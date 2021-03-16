@@ -5,7 +5,7 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dxc.controller.dto.PolicyReponse;
+import com.dxc.controller.dto.PolicyResponse;
 import com.dxc.dao.PolicyDao;
 import com.dxc.model.Policy;
 import com.dxc.service.mapper.PolicyMapper;
@@ -31,7 +31,7 @@ public class PolicyServiceImpl implements PolicyService {
 	
 	//method
 	@Override
-	public PolicyReponse addPolicy(Policy policy, String error) {
+	public PolicyResponse addPolicy(Policy policy, String error) {
 
 		return policyMapper.toResponse(policyDao.add(policy), error);
 	}

@@ -11,30 +11,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dxc.controller.dto.MotorReponse;
+import com.dxc.controller.dto.MotorResponse;
 import com.dxc.controller.dto.MotorRequest;
-import com.dxc.controller.dto.PolicyReponse;
+import com.dxc.controller.dto.PolicyResponse;
 import com.dxc.dao.MotorDao;
-import com.dxc.model.Motor;
 import com.dxc.model.Policy;
 import com.dxc.service.MotorService;
 import com.dxc.service.PolicyService;
 import com.dxc.service.mapper.PolicyMapper;
 
 @RestController
+@RequestMapping("/api/contracts")
 public class MotorController {
 	private static final Logger LOGGER = LogManager.getLogger(MotorController.class);
-	
+
 	MotorService motorService;
 
 	PolicyService policyService;
 
 	PolicyMapper policyMapper;
 
-	
 	@Autowired
 	MotorDao motorDao;
-	
+
 	@Autowired
 	public void setMotorService(MotorService motorService) {
 		this.motorService = motorService;
@@ -50,24 +49,26 @@ public class MotorController {
 		this.policyService = policyService;
 	}
 
-	@RequestMapping(value = "/contracts", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-	public List<MotorReponse> getAll() {
+	public List<MotorResponse> getAll() {
 		return motorDao.findAllMotor();
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/contracts")
+	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
-	public PolicyReponse addContract(@RequestBody MotorRequest motorRequest) {
+	public PolicyResponse addContract(@RequestBody MotorRequest motorRequest) {
 		String error = String.valueOf(motorService.checkInput(motorRequest));
 		LOGGER.info(motorRequest);
-		
 		if (!"".equals(error)) {
 			error = error.substring(2);
+			LOGGER.error(error);
 			return policyMapper.toResponse(policyMapper.toPolicy(motorRequest), error);
 		} else {
 			Policy policy = policyMapper.toPolicy(motorRequest);
 			motorService.add(motorRequest);
+			System.err.println(policy.getPolicyNo() + policy.getPolicyOwner() + policy.getPostedPremium() + policy.getAnnualPremium() + policy.getCoverNote());
+			LOGGER.info(policy);
 			return policyService.addPolicy(policy, error);
 		}
 

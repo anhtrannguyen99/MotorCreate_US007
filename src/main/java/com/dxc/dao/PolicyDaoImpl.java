@@ -2,11 +2,9 @@ package com.dxc.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 
 import com.dxc.model.Policy;
 
-@Repository
 public class PolicyDaoImpl implements PolicyDao {
 
 	private JdbcTemplate jdbcTemplate;

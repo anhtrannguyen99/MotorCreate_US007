@@ -1,6 +1,6 @@
 package com.dxc.controller.dto;
 
-public class PolicyReponse {
+public class PolicyResponse {
 	private String policyNo;
 
 	private String coverNote;
@@ -16,11 +16,11 @@ public class PolicyReponse {
 	private String policyOwner;
 	
 	
-	public PolicyReponse() {
+	public PolicyResponse() {
 		super();
 	}
 
-	public PolicyReponse(String policyNo, String coverNote, double annualPremium, double postedPremium,
+	public PolicyResponse(String policyNo, String coverNote, double annualPremium, double postedPremium,
 			String status, String error, String policyOwner) {
 		super();
 		this.policyNo = policyNo;

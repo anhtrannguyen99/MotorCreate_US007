@@ -2,7 +2,7 @@ package com.dxc.controller.dto;
 
 import java.util.Date;
 
-public class MotorReponse {
+public class MotorResponse {
 	private String coverNote;
 
 	private Date inceptionDate;
@@ -23,11 +23,11 @@ public class MotorReponse {
 
 	private double rate;
 
-	public MotorReponse() {
+	public MotorResponse() {
 		super();
 	}
 
-	public MotorReponse(String coverNote, Date inception, Date expiry, String clientSecurityNumber, String engineNo,
+	public MotorResponse(String coverNote, Date inception, Date expiry, String clientSecurityNumber, String engineNo,
 			String chassisNo, String vehicleRegistration, String billingCurrency, double sumInsured, double rate) {
 		super();
 		this.coverNote = coverNote;

@@ -6,24 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.dxc.model.Client;
+import com.dxc.model.Currency;
 
-public class ClientDaoImpl implements ClientDao{
-
+public class CurrencyDaoImpl implements CurrencyDao{
 	private JdbcTemplate jdbcTemplate;
-	
+
 	@Autowired
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	@Override
-	public List<Client> findClientId (String clientId) {
-		String sql = String.format("select * from dbo.Client where client_id = N'%s'", clientId);
-		
-		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<Client>(Client.class));
+	public List<Currency> getCurrency(String code) {
+		String sql = String.format("SELECT * FROM Currency Where code = '%s' ", code);
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<Currency>(Currency.class));
+
 	}
-	
-	
 
 }

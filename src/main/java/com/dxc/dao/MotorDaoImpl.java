@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.dxc.controller.dto.MotorReponse;
+import com.dxc.controller.dto.MotorResponse;
 import com.dxc.model.Motor;
 
 public class MotorDaoImpl implements MotorDao {
@@ -19,9 +19,9 @@ public class MotorDaoImpl implements MotorDao {
 	}
 
 	@Override
-	public List<MotorReponse> findAllMotor() {
+	public List<MotorResponse> findAllMotor() {
 		String sql = "SELECT * FROM Contract";
-		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<MotorReponse>(MotorReponse.class));
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<MotorResponse>(MotorResponse.class));
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class MotorDaoImpl implements MotorDao {
 		} else {
 			jdbcTemplate.update(sql, motor.getCoverNote(), motor.getInceptionDate(), motor.getExpiryDate(),
 					motor.getClientSecurityNumber().getClientId(), motor.getEngineNo(), motor.getChassisNo(),
-					motor.getVehicleRegistrationNo(), motor.getBillingCurrency(), motor.getSumInsured(),
+					motor.getVehicleRegistrationNo(), motor.getBillingCurrency().getCode(), motor.getSumInsured(),
 					motor.getRate());
 		}
 
@@ -41,7 +41,7 @@ public class MotorDaoImpl implements MotorDao {
 
 	@Override
 	public int findCoverNote(String coverNote) {
-		String sql = String.format("select count(*) from dbo.Contract where cover_note = '%s'", coverNote);
+		String sql = String.format("select count(*) from dbo.Contract where cover_note = N'%s'", coverNote);
 
 		return jdbcTemplate.queryForObject(sql, Integer.class);
 	}
@@ -51,7 +51,7 @@ public class MotorDaoImpl implements MotorDao {
 //		String sql = "select concat(engine_no,chassis_no) from dbo.Motor";
 //		return jdbcTemplate.queryForList(sql,String.class);
 
-		String sql = String.format("select count(*) from dbo.Contract where engine_no = '%s' AND chassis_no = '%s'",
+		String sql = String.format("select count(*) from dbo.Contract where engine_no = N'%s' AND chassis_no = N'%s'",
 				motor.getEngineNo(), motor.getChassisNo());
 		return jdbcTemplate.queryForObject(sql, Integer.class);
 	}

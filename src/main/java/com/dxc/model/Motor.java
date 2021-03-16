@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Motor")
+@Table(name = "Contract")
 public class Motor {
 
 	@Id
@@ -34,7 +34,7 @@ public class Motor {
 	private String vehicleRegistrationNo;
 
 	@Column(name = "billing_currency")
-	private String billingCurrency;
+	private Currency billingCurrency;
 
 	@Column(name = "sum_insured")
 	private double sumInsured;
@@ -47,7 +47,7 @@ public class Motor {
 	}
 
 	public Motor(String coverNote, Date inception, Date expiry, Client clientSecurityNumber, String engineNo,
-			String chassisNo, String vehicleRegistration, String billingCurrency, double sumInsured, double rate) {
+			String chassisNo, String vehicleRegistration, Currency billingCurrency, double sumInsured, double rate) {
 		super();
 		this.coverNote = coverNote;
 		this.inceptionDate = inception;
@@ -117,11 +117,11 @@ public class Motor {
 		this.vehicleRegistrationNo = vehicleRegistrationNo;
 	}
 
-	public String getBillingCurrency() {
+	public Currency getBillingCurrency() {
 		return billingCurrency;
 	}
 
-	public void setBillingCurrency(String billingCurrency) {
+	public void setBillingCurrency(Currency billingCurrency) {
 		this.billingCurrency = billingCurrency;
 	}
 
